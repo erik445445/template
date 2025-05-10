@@ -23,7 +23,9 @@ RUN echo "[www]\nlisten = 0.0.0.0:9000" > /usr/local/etc/php-fpm.d/zz-docker.con
 
 # Configura Nginx
 COPY nginx.conf /etc/nginx/sites-available/default
-RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+# Rimuovi eventuali link o file esistenti e crea il link simbolico
+RUN rm -f /etc/nginx/sites-enabled/default \
+    && ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 
 # Etichette Traefik
 LABEL traefik.enable=true

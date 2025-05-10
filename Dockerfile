@@ -21,6 +21,13 @@ RUN chmod -R 755 /var/www/html
 # Configura PHP-FPM per ascoltare su 0.0.0.0:9000
 RUN echo "[www]\nlisten = 0.0.0.0:9000" > /usr/local/etc/php-fpm.d/zz-docker.conf
 
+# Configura PHP (memory_limit e OPcache)
+RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.memory_consumption=256" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.interned_strings_buffer=8" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.max_accelerated_files=10000" >> /usr/local/etc/php/conf.d/custom.ini
+
 # Configura Nginx
 COPY nginx.conf /etc/nginx/sites-available/default
 RUN rm -f /etc/nginx/sites-enabled/default \

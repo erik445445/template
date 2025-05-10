@@ -27,7 +27,7 @@ RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
 
 # Etichette Traefik
 LABEL traefik.enable=true
-LABEL traefik.http.routers.shopware.rule=Host(`i8g88840sk0c8kksw04w0sw8.157.180.26.10.sslip.io`) || Host(`157.180.26.10`)
+LABEL traefik.http.routers.shopware.rule="Host(`i8g88840sk0c8kksw04w0sw8.157.180.26.10.sslip.io`,`157.180.26.10`)"
 LABEL traefik.http.services.shopware.loadbalancer.server.port=80
 LABEL traefik.http.routers.shopware.entrypoints=web
 LABEL traefik.http.routers.shopware.middlewares=strip-prefix

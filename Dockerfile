@@ -23,9 +23,12 @@ RUN echo "[www]\nlisten = 0.0.0.0:9000" > /usr/local/etc/php-fpm.d/zz-docker.con
 
 # Configura Nginx
 COPY nginx.conf /etc/nginx/sites-available/default
-# Rimuovi eventuali link o file esistenti e crea il link simbolico
 RUN rm -f /etc/nginx/sites-enabled/default \
     && ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+
+# Copia script di avvio
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
 # Etichette Traefik
 LABEL traefik.enable=true
@@ -38,5 +41,5 @@ LABEL traefik.http.middlewares.strip-prefix.stripprefix.prefixes=/
 # Espone le porte
 EXPOSE 80 9000
 
-# Avvia Nginx e PHP-FPM
-CMD service nginx start && php-fpm
+# Avvia lo script
+CMD ["/start.sh"]
